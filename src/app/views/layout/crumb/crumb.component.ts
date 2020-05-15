@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-crumb',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrumbComponent implements OnInit {
 
-  constructor() { }
+  constructor (
+    private readonly route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.route, '面包屑');
   }
 
 }

@@ -31,8 +31,6 @@
     </nz-sider>
     <!-- 右侧内容区域开始 -->
     <nz-layout>
-      <!-- 选项卡导航 -->
-      <app-tabset [sourceMenus]="sourceMenus" *ngIf="sourceMenus"></app-tabset>
       <nz-content>
         <div class="inner-content">
           <router-outlet [ngStyle]="{'height':'100%'}"></router-outlet>

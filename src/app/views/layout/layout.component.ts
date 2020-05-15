@@ -36,9 +36,17 @@ export class LayoutComponent implements OnInit {
 
   // 页面点击菜单按钮
   selectedMenu(menu: any): void {
-    // 点击后就设置当前菜单被选中了,并且发布一个事件
-    menu.select = true;
-    this.commentService.event('selectedMenu', menu);
+    this.router
+      // 第三个参数是携带在url地址上的附加属性?name=heh&age=20
+      // .navigate([tabMenu.url], { queryParams: { refresh } })
+      .navigate([menu.url])
+      .then(() => {
+        console.log('跳转成功了');
+      })
+      .catch(error => {
+        console.log(error);
+        this.router.navigate(['/home']);
+      });
   }
 
   // 获取菜单
