@@ -41,7 +41,7 @@ export class LayoutComponent implements OnInit {
       // .navigate([tabMenu.url], { queryParams: { refresh } })
       .navigate([menu.url])
       .then(() => {
-        console.log('跳转成功了');
+        console.log('跳转成功了', menu);
       })
       .catch(error => {
         console.log(error);
