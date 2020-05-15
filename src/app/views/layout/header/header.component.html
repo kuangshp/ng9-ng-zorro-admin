@@ -1,8 +1,10 @@
 <div class="header">
   <!-- logo图标 -->
   <div class="logo">
-    <div class="log1" [hidden]="isCollapsed"></div>
-    <div class="log2" [hidden]="!isCollapsed"></div>
+    <a routerLink="/home">
+      <div class="log1" [hidden]="isCollapsed"></div>
+      <div class="log2" [hidden]="!isCollapsed"></div>
+    </a>
   </div>
   <!-- 切换左侧菜单是否打开按钮 -->
   <div class="menus">
