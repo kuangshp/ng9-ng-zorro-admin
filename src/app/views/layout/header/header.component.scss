@@ -46,6 +46,14 @@
       color: #fff;
     }
   }
+  .crumb-group {
+    line-height: inherit;
+    height: inherit;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   .content{
     flex:1;
   }

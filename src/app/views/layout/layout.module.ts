@@ -8,6 +8,7 @@ import { LayoutComponent } from './layout.component';
 import { TabsetComponent } from './tabset/tabset.component';
 import { AppStoreModule } from '@app/store/store.module';
 import { ModifyPasswordComponent } from './modify-password/modify-password.component';
+import { CrumbComponent } from './crumb/crumb.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ModifyPasswordComponent } from './modify-password/modify-password.compo
     HeaderComponent,
     TabsetComponent,
     ModifyPasswordComponent,
+    CrumbComponent,
   ],
   entryComponents: [
     ModifyPasswordComponent,

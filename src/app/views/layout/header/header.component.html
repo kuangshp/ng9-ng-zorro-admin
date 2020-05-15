@@ -1,12 +1,20 @@
 <div class="header">
+  <!-- logo图标 -->
   <div class="logo">
     <div class="log1" [hidden]="isCollapsed"></div>
     <div class="log2" [hidden]="!isCollapsed"></div>
   </div>
+  <!-- 切换左侧菜单是否打开按钮 -->
   <div class="menus">
     <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="toggleMenu()"></i>
   </div>
+  <!-- 面包屑导航 -->
+  <div class="crumb-group">
+    <app-crumb></app-crumb>
+  </div>
+  <!-- 中间内容 -->
   <div class="content"></div>
+  <!-- 右侧用户中心 -->
   <div class="user-info">
     <a nz-dropdown [nzDropdownMenu]="menu">
       {{username}}

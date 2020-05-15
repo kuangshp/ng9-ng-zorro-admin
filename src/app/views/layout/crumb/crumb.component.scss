@@ -1,0 +1,10 @@
+.crumb a{
+  color: #fff!important;
+}
+.crumb-item {
+  color: #fff!important;
+}
+
+::ng-deep .ant-breadcrumb-separator{
+  color: #fff;
+}
