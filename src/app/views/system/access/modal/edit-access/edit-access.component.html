@@ -1,0 +1,129 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">类型</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" [ngModel]="type" formControlName="type" (ngModelChange)="typeChange($event)">
+          <nz-option nzValue="1" nzLabel="模块"></nz-option>
+          <nz-option nzValue="2" nzLabel="菜单"></nz-option>
+          <nz-option nzValue="3" nzLabel="操作"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 当选择模块的时候显示模块的输入框module_name -->
+    <ng-container *ngIf="type=='1'">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>模块名称</nz-form-label>
+        <nz-form-control [nzSpan]="12" [nzErrorTip]="moduleNameErrorTpl">
+          <input nz-input formControlName="moduleName" placeholder="请输入模块名称" />
+          <!-- 校验数据 -->
+          <ng-template #moduleNameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              请输入模块名称
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">url地址</nz-form-label>
+        <nz-form-control nzSpan="12">
+          <input nz-input formControlName="url" placeholder="请输入该菜单的url地址" type="text" />
+          <label>如有子菜单可以不写</label>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+    <!-- 创建菜单与操作的显示的开始 -->
+    <nz-form-item *ngIf="type=='2'">
+      <nz-form-label [nzSpan]="7" nzRequired>所属模块</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" formControlName="moduleId">
+          <nz-option *ngFor="let item of moduleList" [nzValue]="item.id" [nzLabel]="item.moduleName"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- 操作的 -->
+    <nz-form-item *ngIf="type=='3'">
+      <nz-form-label [nzSpan]="7" nzRequired>所属路由</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" formControlName="moduleId">
+          <nz-option *ngFor="let item of moduleList" [nzValue]="item.id" [nzLabel]="item.actionName"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="type=='2'">
+      <nz-form-label [nzSpan]="7" nzRequired>菜单名称</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <input nz-input formControlName="actionName" placeholder="请输入菜单名称" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="type=='3'">
+      <nz-form-label [nzSpan]="7" nzRequired>操作名称</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <input nz-input formControlName="actionName" placeholder="请输入操作名称" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="type=='2' || type=='3'">
+      <nz-form-label [nzSpan]="7" nzRequired>url地址</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <input nz-input formControlName="url" placeholder="请输入该菜单的url地址" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="type=='3'">
+      <nz-form-label [nzSpan]="7">请求方式</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" [ngModel]="method" formControlName="method">
+          <nz-option nzValue="GET" nzLabel="GET"></nz-option>
+          <nz-option nzValue="POST" nzLabel="POST"></nz-option>
+          <nz-option nzValue="PATH" nzLabel="PATH"></nz-option>
+          <nz-option nzValue="DELETE" nzLabel="DELETE"></nz-option>
+          <nz-option nzValue="PUT" nzLabel="PUT"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 创建菜单与操作的显示的开始 -->
+    <!-- 公共部分 -->
+    <nz-form-item *ngIf="type=='1' || type=='2'">
+      <nz-form-label [nzSpan]="7">图标</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <input nz-input formControlName="icon" placeholder="请输入图标" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">平台</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <input nz-input formControlName="platform" placeholder="请输入该资源所在平台" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">排序</nz-form-label>
+      <nz-form-control nzSpan="12">
+        <nz-input-number formControlName="sort" [nzMin]="1" [nzStep]="1" style="width: 100%;">
+        </nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">状态</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" [ngModel]="status" formControlName="status">
+          <nz-option nzValue="0" nzLabel="禁用"></nz-option>
+          <nz-option nzValue="1" nzLabel="可用"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">描素</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input formControlName="description" placeholder="请输入简单描素"
+          [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

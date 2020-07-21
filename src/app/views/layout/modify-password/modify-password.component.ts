@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
-import { UserService } from '@app/services/user/user.service';
+import { UserService } from '@app/services/system/user/user.service';
 
 @Component({
   selector: 'app-modify-password',

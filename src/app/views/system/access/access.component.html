@@ -1,1 +1,67 @@
-<p>access works!</p>
+<div class="system-access">
+  <div class="operate">
+    <button nz-button [nzType]="'primary'" (click)="addAccess()">
+      新增资源
+    </button>
+  </div>
+  <nz-table #expandTable [nzData]="accessListData" nzSize="small" nzBordered="true" [nzNoResult]="'无数据'"
+    [nzLoading]="loadData" [nzScroll]="tableScroll" nzShowPagination="false">
+    <thead>
+      <tr>
+        <th nzWidth="150px" nzAlign="left">模块名称</th>
+        <th nzWidth="80px" nzAlign="center">类型</th>
+        <th nzWidth="100px" nzAlign="left">操作名称</th>
+        <th nzWidth="200px" nzAlign="left">地址</th>
+        <th nzWidth="100px" nzAlign="left">图标</th>
+        <th nzWidth="80px" nzAlign="center">请求方式</th>
+        <th nzWidth="80px" nzAlign="center">状态</th>
+        <th nzWidth="80px" nzAlign="center">排序</th>
+        <th nzWidth="200px" nzAlign="left">角色描素</th>
+        <th nzWidth="180px" nzAlign="center">创建时间</th>
+        <th nzWidth="180px" nzAlign="center">更新时间</th>
+        <th nzAlign="center">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of expandTable.data">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+          <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+            <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)">
+              {{ item.moduleName }}
+            </td>
+            <td nzAlign="left" nzAlign="center">
+              <span *ngIf="item.type==1">模块</span>
+              <span *ngIf="item.type==2">菜单</span>
+              <span *ngIf="item.type==3">操作</span>
+            </td>
+            <td nzAlign="left">{{ item.actionName }}</td>
+            <td nzAlign="left">{{ item.url }}</td>
+            <td nzAlign="left">{{ item.icon }}</td>
+            <td nzAlign="center">{{ item.method }}</td>
+            <td nzAlign="center">
+              <img src="/assets/images/yes.gif" *ngIf="item.status==1" />
+              <img src="/assets/images/no.gif" *ngIf="item.status==0" />
+            </td>
+            <td nzAlign="left" nzAlign="center">{{ item.sort }}</td>
+            <td>{{ item.description }}</td>
+            <td nzAlign="center">{{ item.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td nzAlign="center">{{ item.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td nzAlign="center">
+              <button nz-button nzType="default" (click)="editAccess(item)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
+              <nz-divider nzType="vertical"></nz-divider>
+              <!-- <button nz-button nzType="primary">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>权限</button>
+              <nz-divider nzType="vertical"></nz-divider> -->
+              <button nz-button nzType="danger" (click)="deleteRowData(item)">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>
+<app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData"
+  *ngIf="isOpenModal"></app-edit-access>

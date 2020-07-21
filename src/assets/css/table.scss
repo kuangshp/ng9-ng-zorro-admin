@@ -14,3 +14,21 @@
   table-layout: fixed;
   width:100%!important;
 }
+
+
+.table-scroll{
+  th,td {
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+  td{
+    padding: 7px 16px!important;
+  }
+}
+
+.operate {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}

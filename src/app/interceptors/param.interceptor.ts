@@ -26,7 +26,6 @@ export class ParamInterceptor implements HttpInterceptor {
     private readonly loggerService: LoggerService,
     private readonly message: NzMessageService,
   ) {
-    console.log('当前环境地质', environment.baseUrl)
     this.baseUrl = environment.baseUrl;
   }
 

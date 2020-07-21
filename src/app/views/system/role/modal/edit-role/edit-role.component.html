@@ -1,0 +1,34 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [formGroup]="validateForm">
+    <nz-form-item *ngIf="!isEdit">
+      <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="titleErrorTpl">
+        <input nz-input formControlName="title" placeholder="请输入角色名称" />
+        <!-- 校验数据 -->
+        <ng-template #titleErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            请输入用户名
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">描素</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input formControlName="description" placeholder="请输入简单描素"
+          [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">状态</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-select name="select-validate" [ngModel]="status" formControlName="status">
+          <nz-option nzValue="0" nzLabel="禁用"></nz-option>
+          <nz-option nzValue="1" nzLabel="可用"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
