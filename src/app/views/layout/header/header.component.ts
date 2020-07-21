@@ -8,7 +8,7 @@ import { storage } from '@app/utils'
 import { NzModalService } from 'ng-zorro-antd';
 import { ModifyPasswordComponent } from '../modify-password/modify-password.component';
 import { CommonService } from '@app/services/tools/common/common.service';
-import { userInfo } from '@app/config';
+import { USER_INFO } from '@app/config';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     this.store$.pipe(select('isCollapsed' as any), select(getCurrentCollapsed)).subscribe(item => {
       this.isCollapsed = item;
     });
-    this.username = JSON.parse(storage.getItem(userInfo)).username;
+    this.username = JSON.parse(storage.getItem(USER_INFO)).username;
   }
 
   toggleMenu(): void {

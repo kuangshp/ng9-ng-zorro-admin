@@ -7,13 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService extends BaseService {
-  // 获取短信验证码
-  public getSmsCode$(mobile: string): Observable<any> {
-    return this.get('');
-  }
-
   // 登录请求
   public loginApi$(data: ObjectType): Observable<any> {
-    return this.post('', data);
+    return this.post('//api/v1/admin/login', data);
   }
 }

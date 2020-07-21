@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
   baseUrl: 'http://fat',
-  ignoreToken: [],
+  ignoreToken: ['login'],
   parentId: 'dancebox-admin',
 };
