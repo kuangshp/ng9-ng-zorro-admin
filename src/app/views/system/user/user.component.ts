@@ -6,6 +6,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { RoleModalComponent } from './modal/role-modal/role-modal.component';
 import { ObjectType } from '@app/types';
+import { UserModalComponent } from './modal/user-modal/user-modal.component';
 
 @Component({
   selector: 'app-user',
@@ -13,12 +14,6 @@ import { ObjectType } from '@app/types';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  constructor (
-    private readonly userService: UserService,
-    private readonly message: NzMessageService,
-    private readonly router: Router,
-    private readonly nzModalService: NzModalService,
-  ) { }
   // 表格数据
   tableList = [];
   // 数据加载中
@@ -43,20 +38,51 @@ export class UserComponent implements OnInit {
     { text: '禁用', value: '0' }
   ];
 
+  constructor (
+    private readonly userService: UserService,
+    private readonly message: NzMessageService,
+    private readonly router: Router,
+    private readonly nzModalService: NzModalService,
+  ) { }
+
+  ngOnInit() {
+    this.initUserList(this.searchData());
+  }
   // 添加数据弹框
   addUser(): void {
-    this.rowData = {};
-    this.isOpenModal = true;
+    this.nzModalService.create({
+      nzTitle: '添加用户',
+      nzContent: UserModalComponent,
+      nzOkText: '确认',
+      nzCancelText: '取消',
+      nzOnOk: async (componentInstance) => {
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.initUserList(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
   // 编辑用户
-  editUser(data: any): void {
-    this.rowData = data;
-    this.isOpenModal = true;
-  }
-
-  ngOnInit() {
-    this.initUserList();
+  editUser(data: ObjectType): void {
+    this.nzModalService.create({
+      nzTitle: '编辑用户',
+      nzContent: UserModalComponent,
+      nzComponentParams: {
+        rowData: data,
+      },
+      nzOkText: '确认',
+      nzCancelText: '取消',
+      nzOnOk: async (componentInstance) => {
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.initUserList(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
   // 获取数据
