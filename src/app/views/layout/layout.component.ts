@@ -55,7 +55,7 @@ export class LayoutComponent implements OnInit {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
         this.sourceMenus = result;
-        this.menusList = formatMenus(result, 'orderSeq');
+        this.menusList = formatMenus(result, 'sort');
       } else {
         console.log(message);
       }

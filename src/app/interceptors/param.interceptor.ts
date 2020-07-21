@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 // 获取环境配置项目
 import { environment } from './../../environments/environment';
 import { storage } from '@app/utils';
-import { X_ORG_ID, X_ORIGIN, X_USER_TOKEN, X_USER_ID, X_OPERATED_PRODUCT } from '../config';
+import { X_USER_TOKEN } from '../config';
 import { Router } from '@angular/router';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { LoggerService } from '@app/services/tools/logger/logger.service';
@@ -26,6 +26,7 @@ export class ParamInterceptor implements HttpInterceptor {
     private readonly loggerService: LoggerService,
     private readonly message: NzMessageService,
   ) {
+    console.log('当前环境地质', environment.baseUrl)
     this.baseUrl = environment.baseUrl;
   }
 
@@ -52,8 +53,6 @@ export class ParamInterceptor implements HttpInterceptor {
           url,
           headers: req.headers
             .set(X_USER_TOKEN, JSON.parse(storage.getItem(X_USER_TOKEN)))
-            .set(X_ORG_ID, '2')
-            .set(X_ORIGIN, 'approval-web')
         });
       }
     }
