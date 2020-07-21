@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ncre-web": {
+    "dancebox-admin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ncre-web",
+            "outputPath": "dist/dancebox-admin",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -96,18 +96,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ncre-web:build"
+            "browserTarget": "dancebox-admin:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ncre-web:build:production"
+              "browserTarget": "dancebox-admin:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ncre-web:build"
+            "browserTarget": "dancebox-admin:build"
           }
         },
         "test": {
@@ -144,18 +144,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ncre-web:serve"
+            "devServerTarget": "dancebox-admin:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ncre-web:serve:production"
+              "devServerTarget": "dancebox-admin:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "ncre-web",
+  "defaultProject": "dancebox-admin",
   "cli": {
     "analytics": "31dc7d9f-3dee-4865-8189-2d0fa9f673c2"
   }

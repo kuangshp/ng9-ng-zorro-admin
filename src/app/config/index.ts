@@ -1,4 +1,4 @@
-export const baseName = 'ncre-web';
+export const baseName = 'dancebox-admin';
 export const X_USER_TOKEN = 'X-User-Token';
 export const userInfo = 'userInfo';
 export const X_ORG_ID = 'x-org-id';
