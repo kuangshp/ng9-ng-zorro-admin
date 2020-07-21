@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   baseUrl: '',
-  ignoreToken: ['login'],
+  ignoreToken: ['admin/login'],
   parentId: 'dancebox-admin',
 };

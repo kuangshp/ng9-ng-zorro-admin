@@ -9,6 +9,6 @@ import { Observable } from 'rxjs';
 export class LoginService extends BaseService {
   // 登录请求
   public loginApi$(data: ObjectType): Observable<any> {
-    return this.post('//api/v1/admin/login', data);
+    return this.post('/admin/login', data);
   }
 }

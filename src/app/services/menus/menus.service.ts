@@ -9,6 +9,6 @@ export class MenusService extends BaseService {
 
   // 请求菜单
   public menusApi$(): Observable<any> {
-    return this.get('/admin/access/menus');
+    return this.get('/admin/menus');
   }
 }
