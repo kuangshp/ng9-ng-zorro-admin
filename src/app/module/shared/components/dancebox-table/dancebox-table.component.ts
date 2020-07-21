@@ -29,7 +29,6 @@ export class DanceboxTableComponent implements OnInit {
   changePage: EventEmitter<ObjectType> = new EventEmitter();
 
   ngOnInit(): void {
-    this.setTableScroll();
   }
 
   // 页码改变触发事件
@@ -42,15 +41,6 @@ export class DanceboxTableComponent implements OnInit {
   changePageSize(pageSize: number): void {
     this.pageSize = pageSize;
     this.changePage.emit(this.searchData());
-  }
-
-
-  // 获取屏幕的宽度
-  private setTableScroll(): void {
-    // this.tableScroll.y = (window.innerHeight - 420) + 'px';
-    // this.tableScroll.x = (window.innerWidth - 1000) + 'px';
-    // const clientWith = document.body.clientWidth;
-    // this.tableScroll = { x: `${clientWith}px`, y: document.body.offsetHeight - 220 };
   }
 
   // 设置搜索的条件

@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { RoleModalComponent } from './modal/role-modal/role-modal.component';
+import { ObjectType } from '@app/types';
 
 @Component({
   selector: 'app-user',
@@ -19,25 +20,14 @@ export class UserComponent implements OnInit {
     private readonly nzModalService: NzModalService,
   ) { }
   // 表格数据
-  userListData = [];
+  tableList = [];
   // 数据加载中
   loadData: boolean = true;
   // 总共多少条数据
   tableTotal: number = 0;
-  // 当前页码
-  pageNumber: number = 1;
-  // 默认一页显示多少条
-  pageSize: number = 10;
-  // 页码可以选择一次展示多少条数据
-  nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  // 设置表格滚动条
-  tableScroll: object = {
-    x: '145%',
-    y: document.body.offsetHeight - 220
-  }
 
   // 搜索条件
-  searchData: any = {
+  formData: ObjectType = {
     username: '',
     mobile: '',
     status: '',
@@ -52,22 +42,6 @@ export class UserComponent implements OnInit {
     { text: '可用', value: '1' },
     { text: '禁用', value: '0' }
   ];
-
-  filterStatusChange(status: string): void {
-    this.searchData = Object.assign(this.searchData, { status });
-    this.initUserList(this.searchData);
-  }
-
-  // 用户重置
-  reset(type: string): void {
-    this.searchData = Object.assign(this.searchData, { [type]: '' });
-    this.initUserList(this.searchData);
-  }
-  // 搜索数据
-  // 用户搜索
-  search(): void {
-    this.initUserList(this.searchData);
-  }
 
   // 添加数据弹框
   addUser(): void {
@@ -90,9 +64,8 @@ export class UserComponent implements OnInit {
     this.userService.userListApi$(params).subscribe(data => {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
-        this.userListData = result.data;
+        this.tableList = result.data;
         this.tableTotal = result.total;
-        this.pageNumber = result.pageNumber;
         this.loadData = false;
       } else {
         console.log(message);
@@ -142,28 +115,24 @@ export class UserComponent implements OnInit {
     this.userService.deleteUser$(data.id).subscribe(data => {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
-        this.initUserList({ pageNumber: this.pageNumber, pageSize: this.pageSize });
+        this.initUserList(this.searchData());
         this.message.create('success', message);
       } else {
         this.message.create('error', message);
       }
     })
   }
-  // 页码改变触发事件
-  changePageNumber(pageNumber: number): void {
+  changePage(params: ObjectType) {
     this.loadData = true;
-    this.initUserList({ pageNumber })
+    this.initUserList(this.searchData(params));
   }
 
-  // 页数改变触发事件
-  changePageSize(pageSize: number): void {
-    this.loadData = true;
-    this.pageSize = pageSize;
-    this.initUserList({ pageSize })
-  }
-
-  // 当前页面数据发生改变的时候触发事件
-  currentPageDataChange(ev: any): void {
-    // console.log(ev, '数据改变');
+  // 设置搜索的条件
+  private searchData(params?: ObjectType) {
+    return {
+      pageNum: 1,
+      pageSize: 10,
+      ...params,
+    }
   }
 }

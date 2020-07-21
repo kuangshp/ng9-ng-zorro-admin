@@ -1,22 +1,4 @@
 .table-scroll{
-  table-layout: fixed;
-  width:100%!important;
-  th,td {
-    word-wrap: break-word;
-    word-break: break-all;
-  }
-  // td{
-  //   padding: 7px 16px!important;
-  // }
-}
-
-.ant-table-fixed {
-  table-layout: fixed;
-  width:100%!important;
-}
-
-
-.table-scroll{
   th,td {
     word-wrap: break-word;
     word-break: break-all;
