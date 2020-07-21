@@ -1,0 +1,29 @@
+<div class="ncre-table">
+  <nz-table #basicTable [nzData]="tableDataList" nzSize="default" nzBordered="true" [nzNoResult]="customTpl"
+    [nzLoading]="loadData" [nzPageSizeOptions]="nzPageSizeOptions" nzShowQuickJumper="true" nzShowSizeChanger="true"
+    nzHideOnSinglePage="true" (nzPageIndexChange)="changePageNumber($event)" (nzPageSizeChange)="changePageSize($event)"
+    nzFrontPagination="false" [nzScroll]="tableScroll" [nzTotal]="tableTotal" [nzPageSize]="pageSize"
+    [nzPageIndex]="pageNum" class="table-scroll">
+    <thead>
+      <ng-content select=".thead"></ng-content>
+    </thead>
+    <tbody>
+      <ng-content select=".tbody"></ng-content>
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- 没有数据的展示 -->
+<ng-template #customTpl let-name>
+  <div style="text-align: center;">
+    <nz-empty [nzNotFoundImage]="'./assets/images/not_data.png'" [nzNotFoundContent]="contentTpl"
+      [nzNotFoundFooter]="footerTpl">
+      <ng-template #contentTpl>
+        <span>暂无数据</span>
+      </ng-template>
+      <ng-template #footerTpl>
+        <!-- <button nz-button nzType="primary" (click)="addGoods()">添加数据</button> -->
+      </ng-template>
+    </nz-empty>
+  </div>
+</ng-template>

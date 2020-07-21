@@ -4,9 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { PipesModule } from '@app/pipes/pipes.module';
+import { DanceboxTableComponent } from './components/dancebox-table/dancebox-table.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DanceboxTableComponent
+  ],
   imports: [
     PipesModule,
     CommonModule,
@@ -20,6 +23,7 @@ import { PipesModule } from '@app/pipes/pipes.module';
     NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
+    DanceboxTableComponent,
   ]
 })
 export class SharedModule { }
