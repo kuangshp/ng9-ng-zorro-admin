@@ -8,18 +8,18 @@
     [nzLoading]="loadData" [nzScroll]="tableScroll" nzShowPagination="false">
     <thead>
       <tr>
-        <th nzWidth="150px" nzAlign="left">模块名称</th>
-        <th nzWidth="80px" nzAlign="center">类型</th>
-        <th nzWidth="100px" nzAlign="left">操作名称</th>
-        <th nzWidth="200px" nzAlign="left">地址</th>
-        <th nzWidth="100px" nzAlign="left">图标</th>
-        <th nzWidth="80px" nzAlign="center">请求方式</th>
-        <th nzWidth="80px" nzAlign="center">状态</th>
-        <th nzWidth="80px" nzAlign="center">排序</th>
-        <th nzWidth="200px" nzAlign="left">角色描素</th>
-        <th nzWidth="180px" nzAlign="center">创建时间</th>
-        <th nzWidth="180px" nzAlign="center">更新时间</th>
-        <th nzAlign="center">操作</th>
+        <th style="width:200px;" nzAlign="left">模块名称</th>
+        <th style="width:80px;" nzAlign="center">类型</th>
+        <th style="width:200px;" nzAlign="left">操作名称</th>
+        <th style="width:200px;" nzAlign="left">地址</th>
+        <th style="width:100px;" nzAlign="left">图标</th>
+        <th style="width:150px;" nzAlign="center">请求方式</th>
+        <th style="width:80px;" nzAlign="center">状态</th>
+        <th style="width:80px;" nzAlign="center">排序</th>
+        <th style="width:200px;" nzAlign="left">资源描素</th>
+        <th style="width:190px;" nzAlign="center">创建时间</th>
+        <th style="width:190px;" nzAlign="center">更新时间</th>
+        <th style="width:300px;" nzAlign="center">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -51,9 +51,6 @@
               <button nz-button nzType="default" (click)="editAccess(item)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
               <nz-divider nzType="vertical"></nz-divider>
-              <!-- <button nz-button nzType="primary">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>权限</button>
-              <nz-divider nzType="vertical"></nz-divider> -->
               <button nz-button nzType="danger" (click)="deleteRowData(item)">
                 <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
             </td>
@@ -63,5 +60,5 @@
     </tbody>
   </nz-table>
 </div>
-<app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData"
-  *ngIf="isOpenModal"></app-edit-access>
+<app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData" *ngIf="isOpenModal">
+</app-edit-access>

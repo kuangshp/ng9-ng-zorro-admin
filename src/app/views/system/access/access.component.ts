@@ -22,11 +22,7 @@ export class AccessComponent implements OnInit {
   // private pageSize: number = 10;
   // // 页码可以选择一次展示多少条数据
   // private nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  // 设置表格滚动条
-  tableScroll: object = {
-    x: '145%',
-    y: document.body.offsetHeight - 220
-  }
+  tableScroll: ObjectType = { x: '500px' };
   mapOfExpandedData = {};
   constructor (
     private readonly accessService: AccessService,
@@ -135,10 +131,10 @@ export class AccessComponent implements OnInit {
   }
   // 请求数据
   initAccessList(params?: ObjectType) {
-    this.accessService.accessList$(params).subscribe(data => {
-      const { code, message, result } = data;
+    this.accessService.accessList$(params).subscribe(response => {
+      const { code, message, result: { data } } = response;
       if (Object.is(code, 0)) {
-        const data1 = result.map((item: any, index: number) => ({ ...item, key: (index + 1) }));
+        const data1 = data.map((item: any, index: number) => ({ ...item, key: (index + 1) }));
         this.accessListData = this.formatData(data1, 'sort');
         this.accessListData.forEach(item => {
           this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
