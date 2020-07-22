@@ -10,7 +10,8 @@ const routes: Routes = [
     path: 'user',
     component: UserComponent,
     data: {
-      title: '用户中心'
+      title: '用户中心',
+      breadcrumb: '用户中心',
     }
   },
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
     component: RoleComponent,
     data: {
       title: '角色管理',
+      breadcrumb: '角色管理',
     }
   },
   {
@@ -25,6 +27,7 @@ const routes: Routes = [
     component: AccessComponent,
     data: {
       title: '资源管理',
+      breadcrumb: '资源管理',
     }
   },
   {
