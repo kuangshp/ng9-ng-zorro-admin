@@ -11,6 +11,8 @@ import { AccessModalComponent } from './role/modal/access-modal/access-modal.com
 import { UserModalComponent } from './user/modal/user-modal/user-modal.component';
 import { RoleModalComponent } from './role/modal/role-modal/role-modal.component';
 import { UserRoleModalComponent } from './user/modal/user-role-modal/user-role-modal.component';
+import { DictComponent } from './dict/dict.component';
+import { DictModalComponent } from './dict/modal/dict-modal/dict-modal.component';
 
 @NgModule({
   entryComponents: [
@@ -18,6 +20,7 @@ import { UserRoleModalComponent } from './user/modal/user-role-modal/user-role-m
     RoleModalComponent,
     UserModalComponent,
     UserRoleModalComponent,
+    DictModalComponent,
   ],
   declarations: [
     UserComponent,
@@ -29,6 +32,8 @@ import { UserRoleModalComponent } from './user/modal/user-role-modal/user-role-m
     RoleModalComponent,
     UserModalComponent,
     UserRoleModalComponent,
+    DictComponent,
+    DictModalComponent,
   ],
   imports: [
     SystemRoutingModule,

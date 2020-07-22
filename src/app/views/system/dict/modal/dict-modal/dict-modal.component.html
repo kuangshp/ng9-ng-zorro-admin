@@ -1,0 +1,31 @@
+<form nz-form [formGroup]="validateForm">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>Label值</nz-form-label>
+    <nz-form-control [nzSpan]="12" [nzErrorTip]="valueErrorTpl">
+      <input nz-input type="text" formControlName="value" placeholder="请输入Label值" />
+      <!-- 校验数据 -->
+      <ng-template #valueErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请输入Label值</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>分类</nz-form-label>
+    <nz-form-control [nzSpan]="12" [nzErrorTip]="categoryErrorTpl">
+      <input nz-input type="text" formControlName="category" placeholder="请输入分类" />
+      <!-- 校验数据 -->
+      <ng-template #categoryErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请输入分类</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7">描素</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <textarea nz-input formControlName="description" placeholder="请输入简单描素"
+        [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

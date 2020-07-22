@@ -7,6 +7,7 @@ import { UserService } from './system/user/user.service';
 import { MenusService } from './menus/menus.service';
 import { RoleService } from './system/role/role.service';
 import { AccessService } from './system/access/access.service';
+import { DictService } from './system/dict/dict.service';
 
 @NgModule({
   declarations: [],
@@ -29,6 +30,7 @@ import { AccessService } from './system/access/access.service';
     MenusService,
     RoleService,
     AccessService,
+    DictService,
   ],
   exports: []
 })

@@ -1,0 +1,34 @@
+<div class="system-user">
+  <div class="operate">
+    <button nz-button [nzType]="'primary'" (click)="add()">
+      新增字典
+    </button>
+  </div>
+  <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
+    [loadData]="loadData">
+    <tr class="thead">
+      <th style="width:80px;" nzAlign="left">key值</th>
+      <th style="width:100px;" nzAlign="center">value值</th>
+      <th style="width:180px;" nzAlign="left">分类</th>
+      <th style="width:180px;" nzAlign="center">描素</th>
+      <th style="width:190px;" nzAlign="center">创建时间</th>
+      <th style="width:190px;" nzAlign="center">更新时间</th>
+      <th style="width:280px;" nzAlign="center">操作</th>
+    </tr>
+    <tr *ngFor="let data of tableList" class="tbody">
+      <td nzAlign="left">{{ data.key }}</td>
+      <td nzAlign="center">{{ data.value }}</td>
+      <td nzAlign="left">{{ data.category }}</td>
+      <td nzAlign="center">{{data.description}}</td>
+      <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">
+        <button nz-button nzType="default" (click)="edit(data)">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" (click)="delete(data)">
+          <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+      </td>
+    </tr>
+  </app-dancebox-table>
+</div>

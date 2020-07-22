@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserComponent } from './user/user.component';
 import { RoleComponent } from './role/role.component';
 import { AccessComponent } from './access/access.component';
+import { DictComponent } from './dict/dict.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,14 @@ const routes: Routes = [
     data: {
       title: '资源管理',
       breadcrumb: '资源管理',
+    }
+  },
+  {
+    path: 'dict',
+    component: DictComponent,
+    data: {
+      title: '字典管理',
+      breadcrumb: '字典管理',
     }
   },
   {
