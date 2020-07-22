@@ -9,8 +9,8 @@ import { EditUserComponent } from './user/modal/edit-user/edit-user.component';
 import { EditRoleComponent } from './role/modal/edit-role/edit-role.component';
 import { EditAccessComponent } from './access/modal/edit-access/edit-access.component';
 import { AccessModalComponent } from './role/modal/access-modal/access-modal.component';
-import { RoleModalComponent } from './user/modal/role-modal/role-modal.component';
 import { UserModalComponent } from './user/modal/user-modal/user-modal.component';
+import { RoleModalComponent } from './role/modal/role-modal/role-modal.component';
 
 @NgModule({
   entryComponents: [

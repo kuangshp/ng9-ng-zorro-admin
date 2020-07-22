@@ -1,20 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ObjectType } from '@app/types';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ValidatorsMobile } from '@app/validators';
-import { UserService } from '@app/services/system/user/user.service';
+import { ObjectType } from '@app/types';
+import { RoleService } from '@app/services/system/role/role.service';
 
 @Component({
-  selector: 'app-user-modal',
-  templateUrl: './user-modal.component.html',
-  styleUrls: ['./user-modal.component.scss']
+  selector: 'app-role-modal',
+  templateUrl: './role-modal.component.html',
+  styleUrls: ['./role-modal.component.scss']
 })
-export class UserModalComponent implements OnInit {
+export class RoleModalComponent implements OnInit {
   validateForm: FormGroup;
-  isEdit: boolean = false;
   status: string = '1';
-  isSuper: string = '0';
 
   // 接收父组件传递过来的行数据
   @Input() rowData: ObjectType = {};
@@ -22,30 +19,22 @@ export class UserModalComponent implements OnInit {
   constructor (
     private fb: FormBuilder,
     private message: NzMessageService,
-    private readonly userService: UserService,
+    private readonly roleService: RoleService,
   ) { }
 
   ngOnInit(): void {
     if (Object.keys(this.rowData).length) {
-      this.isEdit = true;
-      const { username, email, platform, mobile, status, isSuper } = this.rowData;
+      const { title, status, description } = this.rowData;
       this.validateForm = this.fb.group({
-        username: [username, [Validators.required]],
-        email: [email, [Validators.email]],
-        platform: [platform],
-        mobile: [mobile, [ValidatorsMobile]],
+        title: [title, [Validators.required]],
         status: [status],
-        isSuper: [isSuper],
+        description: [description],
       });
     } else {
       this.validateForm = this.fb.group({
-        username: ['', [Validators.required]],
-        password: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.email]],
-        platform: [''],
-        mobile: ['', [ValidatorsMobile]],
+        title: ['', [Validators.required]],
         status: [''],
-        isSuper: [''],
+        description: [''],
       });
     }
   }
@@ -65,7 +54,7 @@ export class UserModalComponent implements OnInit {
     // 编辑
     if (Object.keys(this.rowData).length) {
       const { id, ..._ } = this.rowData;
-      const { code, message } = await this.userService.updateUser$(id, postData).toPromise();
+      const { code, message } = await this.roleService.updateRole$(id, postData).toPromise();
       if (Object.is(code, 0)) {
         this.message.create('success', message);
         return true;
@@ -73,7 +62,7 @@ export class UserModalComponent implements OnInit {
         this.message.create('error', message);
       }
     } else { // 新增
-      const { code, message } = await this.userService.createUserApi$(postData).toPromise();
+      const { code, message } = await this.roleService.createUserApi$(postData).toPromise();
       if (Object.is(code, 0)) {
         this.message.create('success', message);
         return true;
@@ -89,4 +78,5 @@ export class UserModalComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
   }
+
 }

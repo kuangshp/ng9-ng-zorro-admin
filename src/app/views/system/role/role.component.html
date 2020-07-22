@@ -4,47 +4,40 @@
       新增角色
     </button>
   </div>
-  <nz-table #basicTable [nzData]="roleListData" nzSize="default" nzBordered="true" [nzNoResult]="'无数据'"
-    [nzLoading]="loadData" [nzPageSizeOptions]="nzPageSizeOptions" nzShowQuickJumper="true" nzShowSizeChanger="true"
-    nzHideOnSinglePage="true" (nzPageIndexChange)="changePageNumber($event)" (nzPageSizeChange)="changePageSize($event)"
-    nzFrontPagination="false" [nzScroll]="tableScroll" [nzTotal]="tableTotal" [nzPageSize]="pageSize"
-    [nzPageIndex]="pageNumber" class="table-scroll">
-    <thead>
-      <tr>
-        <th nzWidth="150px" nzAlign="left">角色名称</th>
-        <th nzWidth="130px" nzAlign="center">角色描素</th>
-        <th nzWidth="80px" nzAlign="center">状态</th>
-        <th nzWidth="180px" nzAlign="center">创建时间</th>
-        <th nzWidth="180px" nzAlign="center">更新时间</th>
-        <th nzAlign="center">操作</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td nzAlign="left">{{ data.title }}</td>
-        <td nzAlign="center">{{ data.description }}</td>
-        <td nzAlign="center">
-          <img src="/assets/images/yes.gif" *ngIf="data.status==1" />
-          <img src="/assets/images/no.gif" *ngIf="data.status==0" />
-        </td>
-        <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-        <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-        <td nzAlign="center">
-          <button nz-button nzType="default" (click)="editRole(data)">
-            <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" (click)="menusAuth(data, '1')">
-            <i nz-icon nzType="edit" nzTheme="outline"></i>菜单权限</button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" (click)="interfaceAuth(data, '2')">
-            <i nz-icon nzType="edit" nzTheme="outline"></i>接口权限</button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="danger" (click)="deleteRowData(data)">
-            <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
+  <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
+    [loadData]="loadData">
+    <tr class="thead">
+      <th style="width:150px" nzAlign="left">角色名称</th>
+      <th style="width:130px" nzAlign="center">角色描素</th>
+      <th style="width:80px" nzAlign="center">状态</th>
+      <th style="width:190px" nzAlign="center">创建时间</th>
+      <th style="width:190px" nzAlign="center">更新时间</th>
+      <th style="width:480px" nzAlign="center">操作</th>
+    </tr>
+    <tr *ngFor="let data of tableList" class="tbody">
+      <td nzAlign="left">{{ data.title }}</td>
+      <td nzAlign="center">{{ data.description }}</td>
+      <td nzAlign="center">
+        <img src="/assets/images/yes.gif" *ngIf="data.status==1" />
+        <img src="/assets/images/no.gif" *ngIf="data.status==0" />
+      </td>
+      <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">
+        <button nz-button nzType="default" (click)="editRole(data)">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="menusAuth(data, '1')">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>菜单权限</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="interfaceAuth(data, '2')">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>接口权限</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" (click)="deleteRowData(data)">
+          <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+      </td>
+    </tr>
+  </app-dancebox-table>
 </div>
 
 <!-- 添加和编辑数据的弹框 -->

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RoleService } from '@app/services/system/role/role.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { AccessModalComponent } from './modal/access-modal/access-modal.component';
+import { ObjectType } from '@app/types';
+import { RoleModalComponent } from './modal/role-modal/role-modal.component';
 
 @Component({
   selector: 'app-role',
@@ -10,36 +12,19 @@ import { AccessModalComponent } from './modal/access-modal/access-modal.componen
 })
 export class RoleComponent implements OnInit {
 
+  // 表格数据
+  tableList = [];
+  // 数据加载中
+  loadData: boolean = true;
+  // 总共多少条数据
+  tableTotal: number = 0;
+
+
   constructor (
     private roleService: RoleService,
     private message: NzMessageService,
     private readonly nzModalService: NzModalService,
   ) { }
-  // 表格数据
-  roleListData = [];
-  // 数据加载中
-  loadData: boolean = true;
-  // 总共多少条数据
-  tableTotal: number = 0;
-  // 当前页码
-  pageNumber: number = 1;
-  // 默认一页显示多少条
-  pageSize: number = 10;
-  // 页码可以选择一次展示多少条数据
-  nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  // 设置表格滚动条
-  tableScroll: object = {
-    x: '105%',
-    y: document.body.offsetHeight - 220
-  }
-
-  // 是否打开编辑角色、添加角色弹框
-  isOpenModal: boolean = false;
-  // 权限弹框
-  isOpenAuthModal: boolean = false;
-
-  // 编辑数据传递到子组件中
-  rowData: any = {};
 
   ngOnInit() {
     this.initRoleList();
@@ -47,14 +32,42 @@ export class RoleComponent implements OnInit {
 
   // 添加数据弹框
   addRole(): void {
-    this.rowData = {};
-    this.isOpenModal = true;
+    this.nzModalService.create({
+      nzTitle: '添加角色',
+      nzContent: RoleModalComponent,
+      nzComponentParams: {
+        rowData: {},
+      },
+      nzOkText: '确认',
+      nzCancelText: '取消',
+      nzOnOk: async (componentInstance) => {
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.initRoleList(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
   // 编辑角色
-  editRole(data: any): void {
-    this.rowData = data;
-    this.isOpenModal = true;
+  editRole(rowData: ObjectType): void {
+    this.nzModalService.create({
+      nzTitle: '编辑角色',
+      nzContent: RoleModalComponent,
+      nzComponentParams: {
+        rowData,
+      },
+      nzOkText: '确认',
+      nzCancelText: '取消',
+      nzOnOk: async (componentInstance) => {
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.initRoleList(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
   // 给角色赋菜单权限
@@ -84,14 +97,12 @@ export class RoleComponent implements OnInit {
   }
   // 子组件添加数据成功后请求数据
   saveSuccess(): void {
-    this.isOpenModal = false;
     this.loadData = true;
     this.initRoleList();
   }
 
   // 关闭弹框
   closeModal(): void {
-    this.isOpenModal = false;
   }
 
   // 获取角色列表
@@ -100,9 +111,8 @@ export class RoleComponent implements OnInit {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
         this.loadData = false;
-        this.roleListData = result.data;
+        this.tableList = result.data;
         this.tableTotal = result.total;
-        this.pageNumber = result.pageNumber;
       } else {
         console.log(message);
       }
@@ -114,23 +124,24 @@ export class RoleComponent implements OnInit {
     this.roleService.delete$(data.id).subscribe(data => {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
-        this.initRoleList({ pageNumber: this.pageNumber, pageSize: this.pageSize });
+        this.initRoleList(this.searchData());
         this.message.create('success', message);
       } else {
         this.message.create('error', message);
       }
     })
   }
-  // 页码改变触发事件
-  changePageNumber(pageNumber: number): void {
+  changePage(params: ObjectType) {
     this.loadData = true;
-    this.initRoleList({ pageNumber })
+    this.initRoleList(this.searchData(params));
   }
 
-  // 页数改变触发事件
-  changePageSize(pageSize: number): void {
-    this.loadData = true;
-    this.pageSize = pageSize;
-    this.initRoleList({ pageSize })
+  // 设置搜索的条件
+  private searchData(params?: ObjectType) {
+    return {
+      pageNum: 1,
+      pageSize: 10,
+      ...params,
+    }
   }
 }
