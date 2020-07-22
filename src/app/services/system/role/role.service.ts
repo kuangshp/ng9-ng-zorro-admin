@@ -34,6 +34,6 @@ export class RoleService extends BaseService {
 
   // 给角色分配权限
   public assiginAccess$(params: ObjectType): Observable<any> {
-    return this.post('admin/role/assigin_access', params)
+    return this.post('admin/role_access', params)
   }
 }

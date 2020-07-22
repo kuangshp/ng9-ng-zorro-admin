@@ -29,11 +29,11 @@ export class AccessService extends BaseService {
 
   // 获取全部的模块
   public accessParentList$(type: string): Observable<any> {
-    return this.get(`admin/access/module/${type}`);
+    return this.get(`/admin/access/module/${type}`);
   }
 
   // 获取全部的角色权限
   public authorizationList$(type: string, roleId: string): Observable<any> {
-    return this.get(`admin/access/authorization/${type}/${roleId}`);
+    return this.get(`/admin/role_access/${type}/${roleId}`);
   }
 }
