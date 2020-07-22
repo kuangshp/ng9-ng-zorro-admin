@@ -33,13 +33,13 @@
         <button nz-button nzType="primary" (click)="interfaceAuth(data, '2')">
           <i nz-icon nzType="edit" nzTheme="outline"></i>接口权限</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="danger" (click)="deleteRowData(data)">
-          <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+        <a nz-popconfirm nzPopconfirmTitle="你确定要删除该条记录吗?" nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="deleteRowData(data)">
+          <button nz-button nzType="danger">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+        </a>
+
       </td>
     </tr>
   </app-dancebox-table>
 </div>
-
-<!-- 添加和编辑数据的弹框 -->
-<app-edit-role (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData" *ngIf="isOpenModal">
-</app-edit-role>

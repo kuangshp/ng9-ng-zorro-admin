@@ -1,5 +1,5 @@
 <form nz-form [formGroup]="validateForm">
-  <nz-form-item *ngIf="!isEdit">
+  <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>角色名称</nz-form-label>
     <nz-form-control [nzSpan]="12" [nzErrorTip]="titleErrorTpl">
       <input nz-input formControlName="title" placeholder="请输入角色名称" />

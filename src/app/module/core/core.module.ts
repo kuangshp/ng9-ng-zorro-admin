@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ViewsModule } from '../../views/views.module';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../../app-routing.module';
-import { NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NZ_I18N, zh_CN } from 'ng-zorro-antd';
 // 配置 angular i18n
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/zh';
@@ -28,7 +28,7 @@ registerLocaleData(en);
     AppRoutingModule,
     SharedModule,
   ],
-  providers: [AuthGuard, { provide: NZ_I18N, useValue: en_US }],
+  providers: [AuthGuard, { provide: NZ_I18N, useValue: zh_CN }],
 })
 export class CoreModule {
   constructor (@SkipSelf() @Optional() parentModule: CoreModule) {

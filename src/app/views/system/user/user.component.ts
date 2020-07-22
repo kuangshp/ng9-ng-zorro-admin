@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
-import { RoleModalComponent } from './modal/role-modal/role-modal.component';
+// import { RoleModalComponent } from './modal/role-modal/role-modal.component';
 import { ObjectType } from '@app/types';
 import { UserModalComponent } from './modal/user-modal/user-modal.component';
 
@@ -112,17 +112,17 @@ export class UserComponent implements OnInit {
   }
 
   assignRole(data: any): void {
-    this.nzModalService.create({
-      nzTitle: '分配角色',
-      nzWidth: 450,
-      nzContent: RoleModalComponent,
-      nzComponentParams: {
-        userId: data.id
-      },
-      nzOnOk: async (componentInstance) => { // 保存
-        return await componentInstance.handleOk();
-      }
-    })
+    // this.nzModalService.create({
+    //   nzTitle: '分配角色',
+    //   nzWidth: 450,
+    //   nzContent: RoleModalComponent,
+    //   nzComponentParams: {
+    //     userId: data.id
+    //   },
+    //   nzOnOk: async (componentInstance) => { // 保存
+    //     return await componentInstance.handleOk();
+    //   }
+    // })
   }
   // 重置密码为默认密码
   resetPassword(data: any): void {
