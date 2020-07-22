@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { NzTreeNode, NzMessageService, NzTreeComponent, TransferItem, TransferChange } from 'ng-zorro-antd';
+import { Component, OnInit, Input } from '@angular/core';
+import { TransferItem, NzMessageService } from 'ng-zorro-antd';
 import { UserService } from '@app/services/system/user/user.service';
 
 @Component({
-  selector: 'app-role-modal',
-  templateUrl: './role-modal.component.html',
-  styleUrls: ['./role-modal.component.scss']
+  selector: 'app-user-role-modal',
+  templateUrl: './user-role-modal.component.html',
+  styleUrls: ['./user-role-modal.component.scss']
 })
-export class RoleModalComponent implements OnInit {
+export class UserRoleModalComponent implements OnInit {
   @Input() userId: number;
   list: TransferItem[] = [];
 
@@ -15,10 +15,12 @@ export class RoleModalComponent implements OnInit {
     private readonly userService: UserService,
     private readonly message: NzMessageService,
   ) { }
+  
   ngOnInit(): void {
     this.initRoleTreeList();
   }
 
+  // 根据用户id获取角色列表
   initRoleTreeList(): void {
     this.userService.roleTreeList$(this.userId).subscribe(data => {
       const { code, message, result } = data;
@@ -45,4 +47,5 @@ export class RoleModalComponent implements OnInit {
       return false;
     }
   }
+
 }

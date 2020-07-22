@@ -49,11 +49,11 @@ export class UserService extends BaseService {
 
   // 获取角色树
   public roleTreeList$(userId: number): Observable<any> {
-    return this.get(`admin/user/role_tree/${userId}`);
+    return this.get(`admin/user_role/${userId}`);
   }
 
   // 分配角色
   public assiginRole$(params: ObjectType): Observable<any> {
-    return this.post('admin/user/assigin_role', params);
+    return this.post('/admin/user_role', params);
   }
 }
