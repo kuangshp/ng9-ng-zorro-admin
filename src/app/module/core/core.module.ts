@@ -8,11 +8,10 @@ import { AppRoutingModule } from '../../app-routing.module';
 import { NZ_I18N, zh_CN } from 'ng-zorro-antd';
 // 配置 angular i18n
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/zh';
 import { AuthGuard } from '../../auth/auth.guard';
 import { ServiceModule } from '@app/services/service.module';
-import zh from '@angular/common/locales/zh';
 
+import zh from '@angular/common/locales/zh';
 registerLocaleData(zh);
 
 @NgModule({
