@@ -21,7 +21,12 @@ export class DictService extends BaseService {
   }
 
   // 获取字典列表
-  public dictList$(params?: object): Observable<any> {
+  dictList$(params?: ObjectType): Observable<any> {
     return this.get('admin/dict_config', params);
+  }
+
+  // 根据具体的类型获取字典
+  dictByType$(typeObj: ObjectType): Observable<any> {
+    return this.get('admin/dict_config/category', typeObj);
   }
 }

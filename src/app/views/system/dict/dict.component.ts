@@ -20,6 +20,7 @@ export class DictComponent implements OnInit {
     private readonly dictService: DictService,
     private readonly message: NzMessageService,
     private readonly nzModalService: NzModalService,
+    private readonly modal: NzModalService,
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +43,25 @@ export class DictComponent implements OnInit {
     })
   }
   delete(rowData: ObjectType) {
-
+    this.modal.confirm({
+      nzTitle: '删除提示?',
+      nzContent: `<b style="color: red;">是否要删除字典${rowData.value}</b>`,
+      nzOkText: '确认',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.dictService.delDict$(rowData.id).subscribe(data => {
+          const { code, message } = data;
+          if (Object.is(code, 0)) {
+            this.message.create('success', message);
+            this.initDictList(this.searchData());
+          } else {
+            this.message.create('error', message);
+          }
+        })
+      },
+      nzCancelText: '取消',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   edit(rowData: ObjectType) {

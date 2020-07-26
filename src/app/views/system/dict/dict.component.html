@@ -7,8 +7,8 @@
   <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
     [loadData]="loadData">
     <tr class="thead">
-      <th style="width:80px;" nzAlign="left">key值</th>
-      <th style="width:100px;" nzAlign="center">value值</th>
+      <th style="width:80px;" nzAlign="left">Id值</th>
+      <th style="width:100px;" nzAlign="left">Label值</th>
       <th style="width:180px;" nzAlign="left">分类</th>
       <th style="width:180px;" nzAlign="center">描素</th>
       <th style="width:190px;" nzAlign="center">创建时间</th>
@@ -16,8 +16,8 @@
       <th style="width:280px;" nzAlign="center">操作</th>
     </tr>
     <tr *ngFor="let data of tableList" class="tbody">
-      <td nzAlign="left">{{ data.key }}</td>
-      <td nzAlign="center">{{ data.value }}</td>
+      <td nzAlign="left">{{ data.id }}</td>
+      <td nzAlign="center">{{ data.label }}</td>
       <td nzAlign="left">{{ data.category }}</td>
       <td nzAlign="center">{{data.description}}</td>
       <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>

@@ -1,10 +1,10 @@
 <form nz-form [formGroup]="validateForm">
   <nz-form-item>
     <nz-form-label [nzSpan]="7" nzRequired>Label值</nz-form-label>
-    <nz-form-control [nzSpan]="12" [nzErrorTip]="valueErrorTpl">
-      <input nz-input type="text" formControlName="value" placeholder="请输入Label值" />
+    <nz-form-control [nzSpan]="12" [nzErrorTip]="labelErrorTpl">
+      <input nz-input type="text" formControlName="label" placeholder="请输入Label值" />
       <!-- 校验数据 -->
-      <ng-template #valueErrorTpl let-control>
+      <ng-template #labelErrorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">请输入Label值</ng-container>
       </ng-template>
     </nz-form-control>

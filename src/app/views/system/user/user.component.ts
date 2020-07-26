@@ -2,7 +2,6 @@ import { Component, OnInit, } from '@angular/core';
 import { UserService } from '@app/services/system/user/user.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
-// import { RoleModalComponent } from './modal/role-modal/role-modal.component';
 import { ObjectType } from '@app/types';
 import { UserModalComponent } from './modal/user-modal/user-modal.component';
 import { UserRoleModalComponent } from './modal/user-role-modal/user-role-modal.component';
@@ -28,20 +27,11 @@ export class UserComponent implements OnInit {
     status: '',
     email: '',
   }
-  // 是否打开弹框
-  isOpenModal: boolean = false;
 
-  // 编辑数据传递到子组件中
-  rowData: any = {};
-  listOfFilterStatus: any[] = [
-    { text: '可用', value: '1' },
-    { text: '禁用', value: '0' }
-  ];
 
   constructor (
     private readonly userService: UserService,
     private readonly message: NzMessageService,
-    private readonly router: Router,
     private readonly nzModalService: NzModalService,
     private readonly modal: NzModalService,
   ) { }
@@ -100,18 +90,7 @@ export class UserComponent implements OnInit {
     })
   }
 
-  // 子组件添加数据成功后请求数据
-  saveSuccess(): void {
-    this.isOpenModal = false;
-    this.loadData = true;
-    this.initUserList();
-  }
-
-  // 关闭弹框
-  closeModal(): void {
-    this.isOpenModal = false;
-  }
-
+  // 分配角色弹框
   assignRole(data: any): void {
     this.nzModalService.create({
       nzTitle: '分配角色',
@@ -125,6 +104,7 @@ export class UserComponent implements OnInit {
       }
     })
   }
+
   // 重置密码为默认密码
   resetPassword(data: any): void {
     this.modal.confirm({
@@ -169,6 +149,7 @@ export class UserComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+  // 切换页面
   changePage(params: ObjectType) {
     this.loadData = true;
     this.initUserList(this.searchData(params));

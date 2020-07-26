@@ -22,15 +22,15 @@ export class DictModalComponent implements OnInit {
 
   ngOnInit(): void {
     if (Object.keys(this.rowData).length) {
-      const { value, category, description } = this.rowData;
+      const { label, category, description } = this.rowData;
       this.validateForm = this.fb.group({
-        value: [value, [Validators.required]],
+        label: [label, [Validators.required]],
         category: [category, Validators.required],
         description: [description]
       })
     } else {
       this.validateForm = this.fb.group({
-        value: ['', [Validators.required]],
+        label: ['', [Validators.required]],
         category: ['', Validators.required],
         description: ['']
       })

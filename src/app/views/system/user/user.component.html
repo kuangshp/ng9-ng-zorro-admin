@@ -29,7 +29,7 @@
         <img src="/assets/images/yes.gif" *ngIf="data.status==1" />
         <img src="/assets/images/no.gif" *ngIf="data.status==0" />
       </td>
-      <td nzAlign="left">{{ data.platform }}</td>
+      <td nzAlign="left">{{ data.platformDict ? data.platformDict.label : '' }}</td>
       <td nzAlign="center">
         <span *ngIf="data.isSuper==1">是</span>
         <span *ngIf="data.isSuper==0">否</span>

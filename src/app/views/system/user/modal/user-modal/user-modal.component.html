@@ -72,7 +72,11 @@
   <nz-form-item>
     <nz-form-label [nzSpan]="7">平台</nz-form-label>
     <nz-form-control nzSpan="12">
-      <input nz-input formControlName="platform" placeholder="请输入该用户所在平台" type="text" />
+      <nz-select name="select-validate" formControlName="platform">
+        <nz-option nzValue="0" nzLabel="禁用" *ngFor="let item of platformList" [nzValue]="item.id"
+          [nzLabel]="item.label">
+        </nz-option>
+      </nz-select>
     </nz-form-control>
   </nz-form-item>
 
