@@ -3,15 +3,15 @@
   <ng-container *ngIf="!isEdit">
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzValidatingTip="等待服务器校验" [nzErrorTip]="userErrorTpl">
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="userErrorTpl">
         <input nz-input formControlName="username" placeholder="请输入用户名" />
         <!-- 校验数据 -->
         <ng-template #userErrorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">
             请输入用户名
           </ng-container>
-          <ng-container *ngIf="control.hasError('duplicated')">
-            该用户名已经存在
+          <ng-container *ngIf="control.hasError('username')">
+            用户名格式化错误(以字母开头，长度在8-20之间，只能包含字符、数字和下划线),
           </ng-container>
         </ng-template>
       </nz-form-control>

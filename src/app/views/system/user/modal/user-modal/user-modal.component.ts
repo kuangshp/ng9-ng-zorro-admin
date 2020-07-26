@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { ValidatorsMobile } from '@app/validators';
 import { UserService } from '@app/services/system/user/user.service';
 import { DictService } from '@app/services/system/dict/dict.service';
+import { ValidatorsUsername } from '@app/validators/validator.username';
 
 @Component({
   selector: 'app-user-modal',
@@ -31,7 +32,6 @@ export class UserModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initDictPlay();
     if (Object.keys(this.rowData).length) {
       this.isEdit = true;
       const { name, email, platform, mobile, status, isSuper } = this.rowData;
@@ -45,11 +45,11 @@ export class UserModalComponent implements OnInit {
       });
     } else {
       this.validateForm = this.fb.group({
-        username: ['', [Validators.required]],
+        username: ['', [Validators.required, ValidatorsUsername]],
         name: ['', []],
         password: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.email]],
-        platform: [''],
+        platform: [],
         mobile: ['', [ValidatorsMobile]],
         status: [''],
         isSuper: [''],
