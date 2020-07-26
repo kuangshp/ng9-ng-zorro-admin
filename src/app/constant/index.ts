@@ -1,0 +1,1 @@
+export const defaultPassword = 'dancebox&123';

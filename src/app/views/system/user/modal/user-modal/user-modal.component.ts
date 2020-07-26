@@ -28,9 +28,9 @@ export class UserModalComponent implements OnInit {
   ngOnInit(): void {
     if (Object.keys(this.rowData).length) {
       this.isEdit = true;
-      const { username, email, platform, mobile, status, isSuper } = this.rowData;
+      const { name, email, platform, mobile, status, isSuper } = this.rowData;
       this.validateForm = this.fb.group({
-        username: [username, [Validators.required]],
+        name: [name, []],
         email: [email, [Validators.email]],
         platform: [platform],
         mobile: [mobile, [ValidatorsMobile]],
@@ -40,6 +40,7 @@ export class UserModalComponent implements OnInit {
     } else {
       this.validateForm = this.fb.group({
         username: ['', [Validators.required]],
+        name: ['', []],
         password: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.email]],
         platform: [''],

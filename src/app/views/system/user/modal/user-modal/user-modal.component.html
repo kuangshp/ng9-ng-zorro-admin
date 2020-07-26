@@ -1,28 +1,39 @@
 <form nz-form [formGroup]="validateForm">
+  <!-- 编辑的时候不能修改用户名和密码 -->
+  <ng-container *ngIf="!isEdit">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidatingTip="等待服务器校验" [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="username" placeholder="请输入用户名" />
+        <!-- 校验数据 -->
+        <ng-template #userErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            请输入用户名
+          </ng-container>
+          <ng-container *ngIf="control.hasError('duplicated')">
+            该用户名已经存在
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>密码</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="passwordErrorTpl">
+        <input nz-input type="password" formControlName="password" placeholder="请输入密码" />
+        <!-- 校验数据 -->
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">请输入密码</ng-container>
+          <ng-container *ngIf="control.hasError('minlength')">密码长度至少3位数</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+
+
   <nz-form-item>
-    <nz-form-label [nzSpan]="7" nzRequired>用户名</nz-form-label>
-    <nz-form-control [nzSpan]="12" nzValidatingTip="等待服务器校验" [nzErrorTip]="userErrorTpl">
-      <input nz-input formControlName="username" placeholder="请输入用户名" />
-      <!-- 校验数据 -->
-      <ng-template #userErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">
-          请输入用户名
-        </ng-container>
-        <ng-container *ngIf="control.hasError('duplicated')">
-          该用户名已经存在
-        </ng-container>
-      </ng-template>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item *ngIf="!isEdit">
-    <nz-form-label [nzSpan]="7" nzRequired>密码</nz-form-label>
-    <nz-form-control [nzSpan]="12" [nzErrorTip]="passwordErrorTpl">
-      <input nz-input type="password" formControlName="password" placeholder="请输入密码" />
-      <!-- 校验数据 -->
-      <ng-template #passwordErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">请输入密码</ng-container>
-        <ng-container *ngIf="control.hasError('minlength')">密码长度至少3位数</ng-container>
-      </ng-template>
+    <nz-form-label [nzSpan]="7">姓名</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input formControlName="name" placeholder="请输入真实姓名" type="text" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { UserService } from '@app/services/system/user/user.service';
-import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 // import { RoleModalComponent } from './modal/role-modal/role-modal.component';
 import { ObjectType } from '@app/types';
 import { UserModalComponent } from './modal/user-modal/user-modal.component';
 import { UserRoleModalComponent } from './modal/user-role-modal/user-role-modal.component';
+import { defaultPassword } from '@app/constant';
 
 @Component({
   selector: 'app-user',
@@ -44,6 +43,7 @@ export class UserComponent implements OnInit {
     private readonly message: NzMessageService,
     private readonly router: Router,
     private readonly nzModalService: NzModalService,
+    private readonly modal: NzModalService,
   ) { }
 
   ngOnInit() {
@@ -127,27 +127,47 @@ export class UserComponent implements OnInit {
   }
   // 重置密码为默认密码
   resetPassword(data: any): void {
-    this.userService.resetPassword$(data.id).subscribe(data => {
-      const { code, message, result } = data;
-      if (Object.is(code, 0)) {
-        this.message.create('success', message);
-      } else {
-        this.message.create('error', message);
-      }
-    })
+    this.modal.confirm({
+      nzTitle: '重置为默认密码提示?',
+      nzContent: `<b style="color: red;">是否将密码重置为: ${defaultPassword}</b>`,
+      nzOkText: '确认',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.userService.resetPassword$(data.id).subscribe(data => {
+          const { code, message, result } = data;
+          if (Object.is(code, 0)) {
+            this.message.create('success', message);
+          } else {
+            this.message.create('error', message);
+          }
+        })
+      },
+      nzCancelText: '取消',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   // 删除用户
   deleteUser(data: any): void {
-    this.userService.deleteUser$(data.id).subscribe(data => {
-      const { code, message, result } = data;
-      if (Object.is(code, 0)) {
-        this.initUserList(this.searchData());
-        this.message.create('success', message);
-      } else {
-        this.message.create('error', message);
-      }
-    })
+    this.modal.confirm({
+      nzTitle: '删除用户提示?',
+      nzContent: `<b style="color: red;">是否要删除: ${data.username}该用户</b>`,
+      nzOkText: '确认',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.userService.deleteUser$(data.id).subscribe(data => {
+          const { code, message, result } = data;
+          if (Object.is(code, 0)) {
+            this.initUserList(this.searchData());
+            this.message.create('success', message);
+          } else {
+            this.message.create('error', message);
+          }
+        })
+      },
+      nzCancelText: '取消',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
   changePage(params: ObjectType) {
     this.loadData = true;

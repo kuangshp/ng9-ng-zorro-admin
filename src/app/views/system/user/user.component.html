@@ -8,6 +8,7 @@
     [loadData]="loadData">
     <tr class="thead">
       <th style="width:150px;" nzAlign="left">用户名</th>
+      <th style="width:150px;" nzAlign="left">姓名</th>
       <th style="width:180px;" nzAlign="center">手机号码</th>
       <th style="width:180px;" nzAlign="left">邮箱</th>
       <th style="width:80px;" nzAlign="center">状态</th>
@@ -21,6 +22,7 @@
     </tr>
     <tr *ngFor="let data of tableList" class="tbody">
       <td nzAlign="left">{{ data.username }}</td>
+      <td nzAlign="left">{{ data.name }}</td>
       <td nzAlign="center">{{ data.mobile }}</td>
       <td nzAlign="left">{{ data.email }}</td>
       <td nzAlign="center">
@@ -52,4 +54,3 @@
     </tr>
   </app-dancebox-table>
 </div>
-
