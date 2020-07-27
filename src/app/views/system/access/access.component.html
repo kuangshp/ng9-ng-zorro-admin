@@ -4,8 +4,11 @@
       新增资源
     </button>
   </div>
-  <nz-table #expandTable [nzData]="accessListData" nzSize="small" nzBordered="true" [nzNoResult]="'无数据'"
-    [nzLoading]="loadData" [nzScroll]="tableScroll" nzShowPagination="false">
+
+  <nz-table #expandTable [nzData]="tableList" [nzNoResult]="customTpl" [nzLoading]="loadData" [nzPageSizeOptions]="nzPageSizeOptions" nzShowQuickJumper="true" nzShowSizeChanger="true"
+    nzHideOnSinglePage="true" (nzPageIndexChange)="changePageNumber($event)" (nzPageSizeChange)="changePageSize($event)"
+    nzFrontPagination="false" [nzScroll]="tableScroll" [nzTotal]="tableTotal" [nzPageSize]="pageSize"
+    [nzPageIndex]="pageNum" class="table-scroll">
     <thead>
       <tr>
         <th style="width:200px;" nzAlign="left">模块名称</th>
@@ -24,10 +27,10 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let data of expandTable.data">
-        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
           <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-            <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
-              (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)">
+            <td [nzIndentSize]="item.level! * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.id], data.id, item, $event)">
               {{ item.moduleName }}
             </td>
             <td nzAlign="left" nzAlign="center">
@@ -59,6 +62,75 @@
       </ng-container>
     </tbody>
   </nz-table>
+  <!-- <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
+    [loadData]="loadData">
+    <tr class="thead">
+      <th style="width:200px;" nzAlign="left">模块名称</th>
+      <th style="width:80px;" nzAlign="center">类型</th>
+      <th style="width:200px;" nzAlign="left">操作名称</th>
+      <th style="width:200px;" nzAlign="left">地址</th>
+      <th style="width:100px;" nzAlign="left">图标</th>
+      <th style="width:150px;" nzAlign="center">请求方式</th>
+      <th style="width:80px;" nzAlign="center">状态</th>
+      <th style="width:80px;" nzAlign="center">排序</th>
+      <th style="width:200px;" nzAlign="left">资源描素</th>
+      <th style="width:190px;" nzAlign="center">创建时间</th>
+      <th style="width:190px;" nzAlign="center">更新时间</th>
+      <th style="width:300px;" nzAlign="center">操作</th>
+    </tr>
+    <div>
+      <ng-container *ngFor="let data of tableList">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
+          <tr *ngIf="(item.parent && item.parent.expand) || !item.parent" class="tbody">
+            <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
+              {{ item.moduleName }}
+            </td>
+            <td nzAlign="left" nzAlign="center">
+              <span *ngIf="item.type==1">模块</span>
+              <span *ngIf="item.type==2">菜单</span>
+              <span *ngIf="item.type==3">操作</span>
+            </td>
+            <td nzAlign="left">{{ item.actionName }}</td>
+            <td nzAlign="left">{{ item.url }}</td>
+            <td nzAlign="left">{{ item.icon }}</td>
+            <td nzAlign="center">{{ item.method }}</td>
+            <td nzAlign="center">
+              <img src="/assets/images/yes.gif" *ngIf="item.status==1" />
+              <img src="/assets/images/no.gif" *ngIf="item.status==0" />
+            </td>
+            <td nzAlign="left" nzAlign="center">{{ item.sort }}</td>
+            <td>{{ item.description }}</td>
+            <td nzAlign="center">{{ item.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td nzAlign="center">{{ item.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td nzAlign="center">
+              <button nz-button nzType="default" (click)="editAccess(item)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
+              <nz-divider nzType="vertical"></nz-divider>
+              <button nz-button nzType="danger" (click)="deleteRowData(item)">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </div>
+  </app-dancebox-table> -->
 </div>
 <app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData" *ngIf="isOpenModal">
 </app-edit-access>
+
+
+<!-- 没有数据的展示 -->
+<ng-template #customTpl let-name>
+  <div style="text-align: center;">
+    <nz-empty [nzNotFoundImage]="'./assets/images/not_data.png'" [nzNotFoundContent]="contentTpl"
+      [nzNotFoundFooter]="footerTpl">
+      <ng-template #contentTpl>
+        <span>暂无数据</span>
+      </ng-template>
+      <ng-template #footerTpl>
+        <!-- <button nz-button nzType="primary" (click)="addGoods()">添加数据</button> -->
+      </ng-template>
+    </nz-empty>
+  </div>
+</ng-template>

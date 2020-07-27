@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccessService } from '@app/services/system/access/access.service';
 import { ObjectType } from '@app/types';
-import { TreeNodeInterface } from './table-type';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -10,38 +9,60 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./access.component.scss']
 })
 export class AccessComponent implements OnInit {
-  // 表格数据
-  accessListData = [];
-  // 数据加载中
-  loadData: boolean = false;
-  // 总共多少条数据
-  // private tableTotal: number = 0;
-  // // 当前页码
-  // private pageNumber: number = 1;
-  // // 默认一页显示多少条
-  // private pageSize: number = 10;
-  // // 页码可以选择一次展示多少条数据
-  // private nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  // 当前页码
+  pageNum: number = 1;
+  // 默认一页显示多少条
+  pageSize: number = 10;
+  // 页码可以选择一次展示多少条数据
+  nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  // 设置表格滚动条
   tableScroll: ObjectType = { x: '500px' };
+
+  tableList: ObjectType[] = [];
+  tableTotal: number = 0;
+  loadData: boolean = false;
+
   mapOfExpandedData = {};
   constructor (
     private readonly accessService: AccessService,
     private readonly message: NzMessageService,
   ) { }
 
-  collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
-    console.log(array, data, $event)
-    // 关闭的时候$event=false打开的时候为true
-    if ($event === false) {
-      if (data.children) {
-        data.children.forEach(d => {
+  async collapse(
+    array: ObjectType[],
+    key: number,
+    rowData: ObjectType,
+    $event: boolean): Promise<void> {
+    console.log(array, key, rowData, $event)
+    // 关闭的时候$event=false,打开的时候为true
+    if (!$event) {
+      if (rowData.children) {
+        rowData.children.forEach(d => {
           const target = array.find(a => a.key === d.key)!;
           target.expand = false;
-          this.collapse(array, target, false);
+          this.collapse(array, key, target, false);
         });
       } else {
         return;
       }
+    } else {
+      // 打开的时候根据现在的type获取下一层级别的type
+      const type = ++rowData.type;
+      const moduleId = rowData.id;
+      const { data, total } = await this.initAccessList({ type, pageSize: 100, moduleId });
+      let newData = data.map((item: ObjectType) => {
+        return {
+          ...item,
+          level: item.type,
+          expand: false,
+        }
+      })
+      // 在this.mapOfExpandedData[key]中查找到当前的数组位置
+      const index = this.mapOfExpandedData[key].findIndex(item => item.id = rowData.id);
+      console.log(index, '44', this.mapOfExpandedData[key].splice(key, 0, ...newData));
+      this.mapOfExpandedData[key] = [
+        ...this.mapOfExpandedData[key],
+      ]
     }
   }
 
@@ -55,22 +76,42 @@ export class AccessComponent implements OnInit {
       this.visitNode(node, hashMap, array);
       if (node.children) {
         for (let i = node.children.length - 1; i >= 0; i--) {
-          stack.push({ ...node.children[i], level: node.level! + 1, expand: false, parent: node });
+          stack.push({
+            ...node.children[i],
+            level: node.level! + 1,
+            expand: false,
+            parent: node
+          });
         }
       }
     }
     return array;
   }
 
-  visitNode(node: any, hashMap: { [key: string]: boolean }, array: any[]): void {
+  visitNode(
+    node: any,
+    hashMap: { [key: string]: boolean },
+    array: any[]
+  ): void {
     if (!hashMap[node.key]) {
       hashMap[node.key] = true;
       array.push(node);
     }
   }
 
-  ngOnInit(): void {
-    this.initAccessList();
+  async ngOnInit(): Promise<void> {
+    const { data, total } = await this.initAccessList();
+    this.tableTotal = total;
+    this.tableList = data.map(item => {
+      return {
+        ...item,
+        expand: false,
+      }
+    });
+    this.tableList.forEach(item => {
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    })
+    this.loadData = false;
   }
 
   // 是否打开弹框
@@ -104,18 +145,6 @@ export class AccessComponent implements OnInit {
     this.isOpenModal = true;
   }
 
-  // 页码改变触发事件
-  // private changePageNumber(pageNumber: number): void {
-  //   this.loadData = true;
-  //   this.initAccessList({ pageNumber })
-  // }
-
-  // 页数改变触发事件
-  // private changePageSize(pageSize: number): void {
-  //   this.loadData = true;
-  //   this.pageSize = pageSize;
-  //   this.initAccessList({ pageSize })
-  // }
 
   // 删除数据
   deleteRowData(data): void {
@@ -129,41 +158,33 @@ export class AccessComponent implements OnInit {
       }
     })
   }
-  // 请求数据
-  initAccessList(params?: ObjectType) {
-    this.accessService.accessList$(params).subscribe(response => {
-      const { code, message, result: { data } } = response;
-      if (Object.is(code, 0)) {
-        const data1 = data.map((item: any, index: number) => ({ ...item, key: (index + 1) }));
-        this.accessListData = this.formatData(data1, 'sort');
-        this.accessListData.forEach(item => {
-          this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
-        });
-        this.loadData = false;
-      }
-    })
+
+  // 初始化数据
+  private async initAccessList(params?: ObjectType) {
+    const { code, message, result: { data, total } } = await this.accessService.accessList$(params).toPromise();
+    if (Object.is(code, 0)) {
+      return { data, total };
+    } else {
+      console.log(message);
+    }
   }
-  formatHandler(data: any[]) {
-    // 把当前数组边变成对象,以id为对象的key,值为当前数组的项
-    return data.reduce((pre, cur) => {
-      return { ...pre, [cur['id']]: cur }
-    }, {});
+
+  // 页码改变触发事件
+  changePageNumber(pageNum: number): void {
+    this.pageNum = pageNum;
   }
-  // 格式化数据
-  formatData(data: any[], sortField?: string): Array<ObjectType> {
-    const formatObj = this.formatHandler(data);
-    const sortArray = sortField ? data.sort((a, b) => a[sortField] - b[sortField]) : data;
-    return sortArray.reduce((arr, cur) => {
-      // 迭代当前数据的parentId存在就取存在的,不存在就取值-1
-      const moduleId = cur.moduleId ? cur.moduleId : -1;
-      const parent = formatObj[moduleId];
-      // 迭代当前项存在父节点就判断如果有children的时候就追加,不然就创建一个children;如果当前没父节点就直接追加
-      if (parent) {
-        parent.children ? parent.children.push(cur) : parent.children = [cur];
-      } else {
-        arr.push(cur)
-      }
-      return arr;
-    }, []);
+
+  // 页数改变触发事件
+  changePageSize(pageSize: number): void {
+    this.pageSize = pageSize;
+  }
+
+  // 设置搜索的条件
+  private searchData(params?: ObjectType) {
+    return {
+      pageNum: 1,
+      pageSize: 10,
+      ...params,
+    }
   }
 }
