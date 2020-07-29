@@ -9,27 +9,17 @@ import { NzMessageService } from 'ng-zorro-antd';
   styleUrls: ['./access.component.scss']
 })
 export class AccessComponent implements OnInit {
-  // 当前页码
-  pageNum: number = 1;
-  // 默认一页显示多少条
-  pageSize: number = 10;
-  // 页码可以选择一次展示多少条数据
-  nzPageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  // 设置表格滚动条
-  tableScroll: ObjectType = { x: '500px' };
-
   tableList: ObjectType[] = [];
   tableTotal: number = 0;
   loadData: boolean = false;
 
-  mapOfExpandedData = {};
   constructor (
     private readonly accessService: AccessService,
     private readonly message: NzMessageService,
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const { data, total } = await this.initAccessList();
+    const { data, total } = await this.initAccessList(this.searchData());
     this.tableTotal = total;
     this.tableList = data;
     this.loadData = false;
@@ -66,7 +56,7 @@ export class AccessComponent implements OnInit {
   saveSuccess(): void {
     this.isOpenModal = false;
     this.loadData = true;
-    this.initAccessList();
+    this.initAccessList(this.searchData());
   }
 
   // 关闭弹框
@@ -83,16 +73,21 @@ export class AccessComponent implements OnInit {
 
 
   // 删除数据
-  deleteRowData(data): void {
-    this.accessService.deleteAccess$(data.id).subscribe(data => {
+  deleteRowData(rowData: ObjectType): void {
+    this.accessService.deleteAccess$(rowData.id).subscribe(data => {
       const { code, message, result } = data;
       if (Object.is(code, 0)) {
         this.message.create('success', message);
-        this.initAccessList();
+        this.initAccessList(this.searchData());
       } else {
         this.message.create('error', message);
       }
     })
+  }
+
+  // 修改页面
+  changePage(page: ObjectType) {
+
   }
 
   // 初始化数据
@@ -104,18 +99,7 @@ export class AccessComponent implements OnInit {
       console.log(message);
     }
   }
-  changePage(page) {
 
-  }
-  // 页码改变触发事件
-  changePageNumber(pageNum: number): void {
-    this.pageNum = pageNum;
-  }
-
-  // 页数改变触发事件
-  changePageSize(pageSize: number): void {
-    this.pageSize = pageSize;
-  }
 
   // 设置搜索的条件
   private searchData(params?: ObjectType) {
