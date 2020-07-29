@@ -74,18 +74,25 @@ export class AccessComponent implements OnInit {
     })
   }
 
-
   // 删除数据
   deleteRowData(rowData: ObjectType): void {
-    this.accessService.deleteAccess$(rowData.id).subscribe(data => {
-      const { code, message } = data;
-      if (Object.is(code, 0)) {
-        this.message.create('success', message);
-        this.tableValue(this.searchData());
-      } else {
-        this.message.create('error', message);
-      }
-    })
+    this.nzModalService.confirm({
+      nzTitle: '删除提示?',
+      nzContent: `<b style="color: red;">是否要删除该行数据</b>`,
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.accessService.deleteAccess$(rowData.id).subscribe(data => {
+          const { code, message } = data;
+          if (Object.is(code, 0)) {
+            this.message.create('success', message);
+            this.tableValue(this.searchData());
+          } else {
+            this.message.create('error', message);
+          }
+        })
+      },
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   // 修改页面
