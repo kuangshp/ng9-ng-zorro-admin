@@ -5,7 +5,7 @@
     </button>
   </div>
 
-  <nz-table #expandTable [nzData]="tableList" [nzNoResult]="customTpl" [nzLoading]="loadData" [nzPageSizeOptions]="nzPageSizeOptions" nzShowQuickJumper="true" nzShowSizeChanger="true"
+  <!-- <nz-table #expandTable [nzData]="tableList" [nzNoResult]="customTpl" [nzLoading]="loadData" [nzPageSizeOptions]="nzPageSizeOptions" nzShowQuickJumper="true" nzShowSizeChanger="true"
     nzHideOnSinglePage="true" (nzPageIndexChange)="changePageNumber($event)" (nzPageSizeChange)="changePageSize($event)"
     nzFrontPagination="false" [nzScroll]="tableScroll" [nzTotal]="tableTotal" [nzPageSize]="pageSize"
     [nzPageIndex]="pageNum" class="table-scroll">
@@ -61,8 +61,8 @@
         </ng-container>
       </ng-container>
     </tbody>
-  </nz-table>
-  <!-- <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
+  </nz-table> -->
+  <app-dancebox-table [tableDataList]="tableList" [tableTotal]="tableTotal" (changePage)="changePage($event)"
     [loadData]="loadData">
     <tr class="thead">
       <th style="width:200px;" nzAlign="left">模块名称</th>
@@ -78,43 +78,36 @@
       <th style="width:190px;" nzAlign="center">更新时间</th>
       <th style="width:300px;" nzAlign="center">操作</th>
     </tr>
-    <div>
-      <ng-container *ngFor="let data of tableList">
-        <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
-          <tr *ngIf="(item.parent && item.parent.expand) || !item.parent" class="tbody">
-            <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
-              (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
-              {{ item.moduleName }}
-            </td>
-            <td nzAlign="left" nzAlign="center">
-              <span *ngIf="item.type==1">模块</span>
-              <span *ngIf="item.type==2">菜单</span>
-              <span *ngIf="item.type==3">操作</span>
-            </td>
-            <td nzAlign="left">{{ item.actionName }}</td>
-            <td nzAlign="left">{{ item.url }}</td>
-            <td nzAlign="left">{{ item.icon }}</td>
-            <td nzAlign="center">{{ item.method }}</td>
-            <td nzAlign="center">
-              <img src="/assets/images/yes.gif" *ngIf="item.status==1" />
-              <img src="/assets/images/no.gif" *ngIf="item.status==0" />
-            </td>
-            <td nzAlign="left" nzAlign="center">{{ item.sort }}</td>
-            <td>{{ item.description }}</td>
-            <td nzAlign="center">{{ item.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-            <td nzAlign="center">{{ item.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-            <td nzAlign="center">
-              <button nz-button nzType="default" (click)="editAccess(item)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
-              <nz-divider nzType="vertical"></nz-divider>
-              <button nz-button nzType="danger" (click)="deleteRowData(item)">
-                <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
-            </td>
-          </tr>
-        </ng-container>
-      </ng-container>
-    </div>
-  </app-dancebox-table> -->
+    <tr *ngFor="let item of tableList" class="tbody">
+      <td [nzIndentSize]="item.type! * 20" [nzShowExpand]="item.children" (nzExpandChange)="changeRow(item, $event)">
+        {{ item.moduleName }}
+      </td>
+      <td nzAlign="left" nzAlign="center">
+        <span *ngIf="item.type==1">模块</span>
+        <span *ngIf="item.type==2">菜单</span>
+        <span *ngIf="item.type==3">操作</span>
+      </td>
+      <td nzAlign="left">{{ item.actionName }}</td>
+      <td nzAlign="left">{{ item.url }}</td>
+      <td nzAlign="left">{{ item.icon }}</td>
+      <td nzAlign="center">{{ item.method }}</td>
+      <td nzAlign="center">
+        <img src="/assets/images/yes.gif" *ngIf="item.status==1" />
+        <img src="/assets/images/no.gif" *ngIf="item.status==0" />
+      </td>
+      <td nzAlign="left" nzAlign="center">{{ item.sort }}</td>
+      <td>{{ item.description }}</td>
+      <td nzAlign="center">{{ item.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">{{ item.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzAlign="center">
+        <button nz-button nzType="default" (click)="editAccess(item)">
+          <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="danger" (click)="deleteRowData(item)">
+          <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+      </td>
+    </tr>
+  </app-dancebox-table>
 </div>
 <app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData" *ngIf="isOpenModal">
 </app-edit-access>

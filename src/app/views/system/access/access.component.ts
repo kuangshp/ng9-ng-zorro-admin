@@ -28,90 +28,26 @@ export class AccessComponent implements OnInit {
     private readonly message: NzMessageService,
   ) { }
 
-  async collapse(
-    array: ObjectType[],
-    key: number,
-    rowData: ObjectType,
-    $event: boolean): Promise<void> {
-    console.log(array, key, rowData, $event)
-    // 关闭的时候$event=false,打开的时候为true
-    if (!$event) {
-      if (rowData.children) {
-        rowData.children.forEach(d => {
-          const target = array.find(a => a.key === d.key)!;
-          target.expand = false;
-          this.collapse(array, key, target, false);
-        });
-      } else {
-        return;
-      }
-    } else {
-      // 打开的时候根据现在的type获取下一层级别的type
-      const type = ++rowData.type;
-      const moduleId = rowData.id;
-      const { data, total } = await this.initAccessList({ type, pageSize: 100, moduleId });
-      let newData = data.map((item: ObjectType) => {
-        return {
-          ...item,
-          level: item.type,
-          expand: false,
-        }
-      })
-      // 在this.mapOfExpandedData[key]中查找到当前的数组位置
-      const index = this.mapOfExpandedData[key].findIndex(item => item.id = rowData.id);
-      console.log(index, '44', this.mapOfExpandedData[key].splice(key, 0, ...newData));
-      this.mapOfExpandedData[key] = [
-        ...this.mapOfExpandedData[key],
-      ]
-    }
-  }
-
-  convertTreeToList(root: any): any[] {
-    const stack: any[] = [];
-    const array: any[] = [];
-    const hashMap = {};
-    stack.push({ ...root, level: 0, expand: false });
-    while (stack.length !== 0) {
-      const node = stack.pop();
-      this.visitNode(node, hashMap, array);
-      if (node.children) {
-        for (let i = node.children.length - 1; i >= 0; i--) {
-          stack.push({
-            ...node.children[i],
-            level: node.level! + 1,
-            expand: false,
-            parent: node
-          });
-        }
-      }
-    }
-    return array;
-  }
-
-  visitNode(
-    node: any,
-    hashMap: { [key: string]: boolean },
-    array: any[]
-  ): void {
-    if (!hashMap[node.key]) {
-      hashMap[node.key] = true;
-      array.push(node);
-    }
-  }
-
   async ngOnInit(): Promise<void> {
     const { data, total } = await this.initAccessList();
     this.tableTotal = total;
-    this.tableList = data.map(item => {
-      return {
-        ...item,
-        expand: false,
-      }
-    });
-    this.tableList.forEach(item => {
-      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    })
+    this.tableList = data;
     this.loadData = false;
+  }
+
+  async changeRow(rowData: ObjectType, $event: boolean) {
+    let type = rowData.type;
+    const { data } = await this.initAccessList({ pageSize: 100, moduleId: rowData.id, type: ++type });
+    if ($event) {
+      // 根据当前的id去查询位置并且添加数据
+      const index = this.tableList.findIndex((item: ObjectType) => item.id === rowData.id);
+      this.tableList.splice((index + 1), 0, ...data);
+      this.tableList = [...this.tableList];
+    } else {
+      // 移除对应的数据
+      const ids = data.map((item: ObjectType) => item.id);
+      this.tableList = this.tableList.filter(item => !ids.includes(item.id));
+    }
   }
 
   // 是否打开弹框
@@ -168,7 +104,9 @@ export class AccessComponent implements OnInit {
       console.log(message);
     }
   }
+  changePage(page) {
 
+  }
   // 页码改变触发事件
   changePageNumber(pageNum: number): void {
     this.pageNum = pageNum;
