@@ -21,6 +21,7 @@ import { DictModalComponent } from './dict/modal/dict-modal/dict-modal.component
     UserModalComponent,
     UserRoleModalComponent,
     DictModalComponent,
+    EditAccessComponent,
   ],
   declarations: [
     UserComponent,

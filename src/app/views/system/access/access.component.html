@@ -109,21 +109,3 @@
     </tr>
   </app-dancebox-table>
 </div>
-<app-edit-access (saveSuccess)="saveSuccess()" (closeModal)="closeModal()" [rowData]="rowData" *ngIf="isOpenModal">
-</app-edit-access>
-
-
-<!-- 没有数据的展示 -->
-<ng-template #customTpl let-name>
-  <div style="text-align: center;">
-    <nz-empty [nzNotFoundImage]="'./assets/images/not_data.png'" [nzNotFoundContent]="contentTpl"
-      [nzNotFoundFooter]="footerTpl">
-      <ng-template #contentTpl>
-        <span>暂无数据</span>
-      </ng-template>
-      <ng-template #footerTpl>
-        <!-- <button nz-button nzType="primary" (click)="addGoods()">添加数据</button> -->
-      </ng-template>
-    </nz-empty>
-  </div>
-</ng-template>

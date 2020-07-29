@@ -124,24 +124,4 @@ export class AccessModalComponent implements OnInit {
       });
     })
   }
-  // new Observable((observer: Observer<boolean>) => {
-  //   const selectedAccessList = this.list.filter(item => item.direction === 'right').map(item => item.id);
-  //   let postData = {
-  //     roleId: this.roleId,
-  //     type: this.type,
-  //     accessList: selectedAccessList
-  //   }
-
-  //   this.roleService.assiginAccess$(postData).subscribe(data => {
-  //     const { code, message, result } = data;
-  //     if (Object.is(code, 0)) {
-  //       this.message.create('success', message);
-  //       observer.next(true);
-  //     } else {
-  //       this.message.create('error', message);
-  //       observer.next(false);
-  //     }
-  //     observer.complete();
-  //   });
-  // })
 }

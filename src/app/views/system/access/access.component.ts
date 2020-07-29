@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccessService } from '@app/services/system/access/access.service';
 import { ObjectType } from '@app/types';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { EditAccessComponent } from './modal/edit-access/edit-access.component';
 
 @Component({
   selector: 'app-access',
@@ -16,15 +17,14 @@ export class AccessComponent implements OnInit {
   constructor (
     private readonly accessService: AccessService,
     private readonly message: NzMessageService,
+    private readonly nzModalService: NzModalService,
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    const { data, total } = await this.initAccessList(this.searchData());
-    this.tableTotal = total;
-    this.tableList = data;
-    this.loadData = false;
+  ngOnInit(): void {
+    this.tableValue(this.searchData());
   }
 
+  // 点击行前面的➕号显示与隐藏表格的数据
   async changeRow(rowData: ObjectType, $event: boolean) {
     let type = rowData.type;
     const { data } = await this.initAccessList({ pageSize: 100, id: rowData.id, type: ++type });
@@ -40,45 +40,48 @@ export class AccessComponent implements OnInit {
     }
   }
 
-  // 是否打开弹框
-  isOpenModal: boolean = false;
-
-  // 编辑数据传递到子组件中
-  rowData: any = {};
-
   // 添加数据弹框
   addAccess(): void {
-    this.rowData = {};
-    this.isOpenModal = true;
+    this.nzModalService.create({
+      nzTitle: '新增资源',
+      nzContent: EditAccessComponent,
+      nzOnOk: async (componentInstance) => { // 保存
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.tableValue(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
-  // 子组件添加数据成功后请求数据
-  saveSuccess(): void {
-    this.isOpenModal = false;
-    this.loadData = true;
-    this.initAccessList(this.searchData());
-  }
-
-  // 关闭弹框
-  closeModal(): void {
-    this.isOpenModal = false;
-    console.log(this.isOpenModal);
-  }
 
   // 编辑
-  editAccess(data: any): void {
-    this.rowData = data;
-    this.isOpenModal = true;
+  editAccess(rowData: ObjectType): void {
+    this.nzModalService.create({
+      nzTitle: '编辑资源',
+      nzContent: EditAccessComponent,
+      nzComponentParams: {
+        rowData,
+      },
+      nzOnOk: async (componentInstance) => { // 保存
+        const result = await componentInstance.handleOk();
+        if (result) {
+          this.tableValue(this.searchData());
+        }
+        return result;
+      }
+    })
   }
 
 
   // 删除数据
   deleteRowData(rowData: ObjectType): void {
     this.accessService.deleteAccess$(rowData.id).subscribe(data => {
-      const { code, message, result } = data;
+      const { code, message } = data;
       if (Object.is(code, 0)) {
         this.message.create('success', message);
-        this.initAccessList(this.searchData());
+        this.tableValue(this.searchData());
       } else {
         this.message.create('error', message);
       }
@@ -87,7 +90,8 @@ export class AccessComponent implements OnInit {
 
   // 修改页面
   changePage(page: ObjectType) {
-
+    console.log(page);
+    this.tableValue(this.searchData(page));
   }
 
   // 初始化数据
@@ -100,6 +104,13 @@ export class AccessComponent implements OnInit {
     }
   }
 
+  // 给表格数据赋值(这个组件有点特殊)
+  private async tableValue(params: ObjectType) {
+    const { data, total } = await this.initAccessList(params);
+    this.tableTotal = total;
+    this.tableList = data;
+    this.loadData = false;
+  }
 
   // 设置搜索的条件
   private searchData(params?: ObjectType) {
