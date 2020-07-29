@@ -37,7 +37,7 @@ export class AccessComponent implements OnInit {
 
   async changeRow(rowData: ObjectType, $event: boolean) {
     let type = rowData.type;
-    const { data } = await this.initAccessList({ pageSize: 100, moduleId: rowData.id, type: ++type });
+    const { data } = await this.initAccessList({ pageSize: 100, id: rowData.id, type: ++type });
     if ($event) {
       // 根据当前的id去查询位置并且添加数据
       const index = this.tableList.findIndex((item: ObjectType) => item.id === rowData.id);
