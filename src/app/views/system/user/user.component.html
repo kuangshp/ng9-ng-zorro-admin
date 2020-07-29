@@ -18,7 +18,7 @@
       <th style="width:190px;" nzAlign="center">最后登录时间</th>
       <th style="width:190px;" nzAlign="center">创建时间</th>
       <th style="width:190px;" nzAlign="center">更新时间</th>
-      <th style="width:480px;" nzAlign="center">操作</th>
+      <th style="width:420px;" nzAlign="center">操作</th>
     </tr>
     <tr *ngFor="let data of tableList" class="tbody">
       <td nzAlign="left">{{ data.username }}</td>
@@ -39,16 +39,16 @@
       <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">
-        <button nz-button nzType="default" (click)="editUser(data)">
+        <button nz-button nzType="default" nzSize="small" (click)="editUser(data)">
           <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="default" (click)="assignRole(data)">
+        <button nz-button nzType="default" nzSize="small" (click)="assignRole(data)">
           <i nz-icon nzType="tool" nzTheme="outline"></i>分配角色</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="resetPassword(data)">
+        <button nz-button nzType="primary" nzSize="small" (click)="resetPassword(data)">
           <i nz-icon nzType="rest" nzTheme="outline"></i>重置密码</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="danger" (click)="deleteUser(data)">
+        <button nz-button nzType="danger" nzSize="small" (click)="deleteUser(data)">
           <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
       </td>
     </tr>

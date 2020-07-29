@@ -24,21 +24,20 @@
       <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">
-        <button nz-button nzType="default" (click)="editRole(data)">
+        <button nz-button nzType="default" nzSize="small" (click)="editRole(data)">
           <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="menusAuth(data, '1')">
+        <button nz-button nzType="primary" nzSize="small" (click)="menusAuth(data, '1')">
           <i nz-icon nzType="edit" nzTheme="outline"></i>菜单权限</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="interfaceAuth(data, '2')">
+        <button nz-button nzType="primary" nzSize="small" (click)="interfaceAuth(data, '2')">
           <i nz-icon nzType="edit" nzTheme="outline"></i>接口权限</button>
         <nz-divider nzType="vertical"></nz-divider>
         <a nz-popconfirm nzPopconfirmTitle="你确定要删除该条记录吗?" nzPopconfirmPlacement="bottom"
           (nzOnConfirm)="deleteRowData(data)">
-          <button nz-button nzType="danger">
+          <button nz-button nzType="danger" nzSize="small">
             <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
         </a>
-
       </td>
     </tr>
   </app-dancebox-table>

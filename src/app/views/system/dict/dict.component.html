@@ -23,10 +23,10 @@
       <td nzAlign="center">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">{{ data.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">
-        <button nz-button nzType="default" (click)="edit(data)">
+        <button nz-button nzType="default" nzSize="small" (click)="edit(data)">
           <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="danger" (click)="delete(data)">
+        <button nz-button nzType="danger" nzSize="small" (click)="delete(data)">
           <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
       </td>
     </tr>

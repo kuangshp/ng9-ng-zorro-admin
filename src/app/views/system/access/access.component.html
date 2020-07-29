@@ -76,7 +76,7 @@
       <th style="width:200px;" nzAlign="left">资源描素</th>
       <th style="width:190px;" nzAlign="center">创建时间</th>
       <th style="width:190px;" nzAlign="center">更新时间</th>
-      <th style="width:300px;" nzAlign="center">操作</th>
+      <th style="width:200px;" nzAlign="center">操作</th>
     </tr>
     <tr *ngFor="let item of tableList" class="tbody">
       <td [nzIndentSize]="item.type! * 20" [nzShowExpand]="item.children" (nzExpandChange)="changeRow(item, $event)">
@@ -100,10 +100,10 @@
       <td nzAlign="center">{{ item.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">{{ item.updatedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td nzAlign="center">
-        <button nz-button nzType="default" (click)="editAccess(item)">
+        <button nz-button nzType="default" (click)="editAccess(item)" nzSize="small">
           <i nz-icon nzType="edit" nzTheme="outline"></i>修改</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="danger" (click)="deleteRowData(item)">
+        <button nz-button nzType="danger" (click)="deleteRowData(item)" nzSize="small">
           <i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
       </td>
     </tr>
