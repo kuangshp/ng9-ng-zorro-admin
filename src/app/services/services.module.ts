@@ -28,4 +28,4 @@ import { MenusService } from '@app/services/menus/menus.service';
   ],
   exports: []
 })
-export class ServiceModule { }
+export class ServicesModule { }
