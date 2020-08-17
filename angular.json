@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ncre-web": {
+    "admin-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ncre-web",
+            "outputPath": "dist/admin-web",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -96,18 +96,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ncre-web:build"
+            "browserTarget": "admin-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ncre-web:build:production"
+              "browserTarget": "admin-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ncre-web:build"
+            "browserTarget": "admin-web:build"
           }
         },
         "test": {
@@ -144,18 +144,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ncre-web:serve"
+            "devServerTarget": "admin-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ncre-web:serve:production"
+              "devServerTarget": "admin-web:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "ncre-web",
+  "defaultProject": "admin-web",
   "cli": {
     "analytics": "31dc7d9f-3dee-4865-8189-2d0fa9f673c2"
   }

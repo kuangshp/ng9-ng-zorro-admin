@@ -1,10 +1,11 @@
 {
-  "name": "ncre-web",
+  "name": "admin-web",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --host 0.0.0.0 --port 4200",
-    "build": "ng build --base-href /ncre-web/",
+    "build": "ng build --base-href /admin-web/",
+    "build:prod": "ng build --prod --build--optimizer --base-href /",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
